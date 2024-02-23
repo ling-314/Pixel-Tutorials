@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="轻量的C++图形库">
+
+
+	<meta name="keywords" content="轻量 C++ 2D 图形库">
+
+<link rel="alternate" href="/atom.xml" title="Pixel" type="application/atom+xml">
+<meta name="theme-color" content="#a1d0f6">
+<title>音频 - Pixel</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>音频</h1>
+        
+        <h2 class="headline">Feb 23 2024
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="音频"><a href="#音频" class="headerlink" title="音频"></a>音频</h2><p>音频<code>Audio</code>包含在<code>PAudio.hpp</code>中，需要自行包含。</p>
+<p>构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Audio</span>(std::string path);</span><br></pre></td></tr></table></figure>
+
+<p>指定音频文件的路径。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 播放</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Play</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 暂停</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Pause</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 继续播放</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Continue</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 停止</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Stop</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 关闭音频文件</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Close</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取音频路径</span></span><br><span class="line"><span class="function">std::string <span class="title">GetPath</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置音频路径</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetPath</span><span class="params">(std::string path)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>Play</code>和<code>Stop</code>、<code>Pause</code>和<code>Continue</code>需要成对出现。在对象超出作用域或被销毁时，会自动调用<code>Stop</code>和<code>Close</code>函数。</p>
+</section>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="/about/">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">Pixel</span>
+            <span>Pixel</span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=http://example.com/2024/02/23/%E9%9F%B3%E9%A2%91/ - 音频 @"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "音频",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+	<div id="social">
+		<p class="small">©  ling-314| Powered by Hexo & 
+			<a target="_blank" rel="noopener" href="https://github.com/F0r3at/Lights"> Lights</a>
+		</p>
+	</div>
+</footer>
+
+</section>
+
+	<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+	<script data-no-instant>
+		
+		InstantClick.init('mousedown');
+	</script>
+
+
+
