@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="轻量的C++图形库">
+
+
+	<meta name="keywords" content="轻量 C++ 2D 图形库">
+
+<link rel="alternate" href="/atom.xml" title="Pixel" type="application/atom+xml">
+<meta name="theme-color" content="#a1d0f6">
+<title>图形节点 - Pixel</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>图形节点</h1>
+        
+        <h2 class="headline">Feb 20 2024
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="图形"><a href="#图形" class="headerlink" title="图形"></a>图形</h2><p>图形节点<code>Graphic</code>是所有图形的基类，它包含了一些基本的图形属性。</p>
+<p>每个图形都有一个<code>GraphicAttribute</code>结构体：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">GraphicAttribute</span></span><br><span class="line">&#123;</span><br><span class="line">	Color	color;			<span class="comment">// 颜色</span></span><br><span class="line">	<span class="type">bool</span>	fill;			<span class="comment">// 填充</span></span><br><span class="line">	<span class="type">float</span>	strokeWidth;	<span class="comment">// 描边宽度，在fill为true时失效</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>你可以获取图形的属性：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">GraphicAttribute <span class="title">Graphic::GetAttr</span><span class="params">()</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+<p>然后修改一些属性，并将新的属性应用到图形：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Graphic::SetAttr</span><span class="params">(GraphicAttribute attr)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Graphic graphic;</span><br><span class="line">GraphicAttribute attr = graphic.<span class="built_in">GetAttr</span>();</span><br><span class="line">attr.color = <span class="number">0xb400ff</span>;</span><br><span class="line">attr.fill = <span class="literal">true</span>;</span><br><span class="line"><span class="comment">//attr.strokeWidth = 114514;</span></span><br><span class="line">graphic.<span class="built_in">SetAttr</span>(attr);</span><br></pre></td></tr></table></figure>
+
+<h2 id="椭圆"><a href="#椭圆" class="headerlink" title="椭圆"></a>椭圆</h2><p>椭圆<code>Ellipse</code>的构造函数已经在新手教程里讲过，这里不多赘述。</p>
+<p><code>Ellipse</code>相比<code>Graphic</code>只多了x、y半径两个属性。示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Pixel::Ellipse <span class="title">ellipse</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>, <span class="number">25</span>, <span class="number">25</span>)</span></span>;</span><br><span class="line"><span class="type">float</span> x = ellipse.<span class="built_in">GetRadiusX</span>() + <span class="number">25</span>, y = ellipse.<span class="built_in">GetRadiusY</span>() + <span class="number">20</span>;</span><br><span class="line">ellipse.<span class="built_in">SetRadiusX</span>(x);</span><br><span class="line">ellipse.<span class="built_in">SetRadiusX</span>(y);</span><br></pre></td></tr></table></figure>
+
+<h2 id="矩形"><a href="#矩形" class="headerlink" title="矩形"></a>矩形</h2><p>构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Rectangle</span>();</span><br><span class="line"><span class="built_in">Rectangle</span>(<span class="type">float</span> x, <span class="type">float</span> y, <span class="type">float</span> width, <span class="type">float</span> height);</span><br><span class="line"><span class="built_in">Rectangle</span>(<span class="type">float</span> x, <span class="type">float</span> y, <span class="type">float</span> width, <span class="type">float</span> height, <span class="type">float</span> radiusX, <span class="type">float</span> radiusY);</span><br><span class="line"><span class="built_in">Rectangle</span>(Size size);</span><br></pre></td></tr></table></figure>
+<p>为了省事，矩形<code>Rectangle</code>实际上是圆角矩形。它具有宽度、高度、圆角的x半径和y半径四个属性。示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Pixel::Rectangle <span class="title">rect</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>, <span class="number">100</span>, <span class="number">200</span>)</span></span></span><br><span class="line"><span class="function"><span class="type">float</span> width </span>= rect.<span class="built_in">GetWidth</span>();</span><br><span class="line">rect.<span class="built_in">SetHeight</span>(width);</span><br><span class="line">rect.<span class="built_in">SetRadiusX</span>(<span class="number">5</span>);</span><br><span class="line">rect.<span class="built_in">SetRadiusY</span>(rect.<span class="built_in">GetRadiusX</span>() + <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="线段"><a href="#线段" class="headerlink" title="线段"></a>线段</h2><p>构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Line</span>();</span><br><span class="line"><span class="built_in">Line</span>(<span class="type">float</span> vertex1X, <span class="type">float</span> vertex1Y, <span class="type">float</span> vertex2X, <span class="type">float</span> vertex2Y);</span><br><span class="line"><span class="built_in">Line</span>(Point vertex1, Point vertex2);</span><br></pre></td></tr></table></figure>
+<p><code>Line</code>的成员函数有很多，但都是获取、设置顶点坐标的，这里不再展开叙述。<del>根本原因还是懒。</del></p>
+<h2 id="多边形"><a href="#多边形" class="headerlink" title="多边形"></a>多边形</h2><p>构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Polygon</span>();</span><br><span class="line"><span class="built_in">Polygon</span>(std::vector&lt;Point&gt; vertexes); <span class="comment">// 也可以使用std::initializer_list&lt;Point&gt;，std::vector兼容它</span></span><br></pre></td></tr></table></figure>
+<p><code>Polygon</code>只有一个获取和设置顶点的成员函数，这里不再展开叙述。</p>
+</section>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="/about/">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">Pixel</span>
+            <span>Pixel</span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=http://example.com/2024/02/20/%E5%9B%BE%E5%BD%A2%E8%8A%82%E7%82%B9/ - 图形节点 @"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "图形节点",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+	<div id="social">
+		<p class="small">©  ling-314| Powered by Hexo & 
+			<a target="_blank" rel="noopener" href="https://github.com/F0r3at/Lights"> Lights</a>
+		</p>
+	</div>
+</footer>
+
+</section>
+
+	<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+	<script data-no-instant>
+		
+		InstantClick.init('mousedown');
+	</script>
+
+
+

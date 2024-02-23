@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="轻量的C++图形库">
+
+
+	<meta name="keywords" content="轻量 C++ 2D 图形库">
+
+<link rel="alternate" href="/atom.xml" title="Pixel" type="application/atom+xml">
+<meta name="theme-color" content="#a1d0f6">
+<title>节点 - Pixel</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>节点</h1>
+        
+        <h2 class="headline">Feb 23 2024
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h2><p>节点<code>Node</code>是所有节点类型<del>最基</del>的基类。</p>
+<p>构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Node</span>();</span><br><span class="line"><span class="built_in">Node</span>(<span class="type">float</span> x, <span class="type">float</span> y);</span><br></pre></td></tr></table></figure>
+
+<h3 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h3><p>每个节点都需要渲染才显示在场景中，所以可以重载<code>Render</code>函数来指定渲染方式。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Render</span><span class="params">(Renderer* renderer)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>参数中传入一个渲染器<code>Renderer</code>，它由节点所在的场景传入。每调用一次<code>Window::Update</code>，这个函数执行一次。当节点不在任何场景或窗口没有进入所在场景，则不会调用该函数。<u><strong>如不需要自定义窗口边框，请勿自行调用此函数。</strong></u></p>
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p>如果需要更新节点的一些数据，请重载<code>Update</code>函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">Update</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>每调用一次<code>Window::Update</code>，这个函数执行一次。当节点不在任何场景或窗口没有进入所在场景，则不会调用该函数。<u><strong>请勿自行调用此函数。</strong></u></p>
+<h3 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h3><p>调用<code>Show</code>函数显示节点，调用<code>Hide</code>函数隐藏节点。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">IsVisible</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Show</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Hide</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="子节点"><a href="#子节点" class="headerlink" title="子节点"></a>子节点</h3><p>子节点类似于节点的孩子，父节点做什么子节点就做什么。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 添加子节点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AddChild</span><span class="params">(Node* target)</span></span>;</span><br><span class="line"><span class="comment">// 添加子节点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AddChilds</span><span class="params">(std::initializer_list&lt;Node*&gt; targets)</span></span>;</span><br><span class="line"><span class="comment">// 移除子节点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">RemoveChild</span><span class="params">(Node* child)</span></span>;</span><br><span class="line"><span class="comment">// 移除子节点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">RemoveChilds</span><span class="params">(std::initializer_list&lt;Node*&gt; children)</span></span>;</span><br><span class="line"><span class="comment">// 清空子节点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ClearChildren</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>一些功能会影响到子节点，如设置坐标、缩放和旋转，但显示和隐藏不会（这可能做得不正确，因为没有接触过实际案例）。</p>
+<h3 id="坐标"><a href="#坐标" class="headerlink" title="坐标"></a>坐标</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取坐标</span></span><br><span class="line"><span class="function">Point <span class="title">GetPosition</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取X坐标</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">GetPositionX</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取Y坐标</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">GetPositionY</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置坐标</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetPosition</span><span class="params">(Point position)</span></span>;</span><br><span class="line"><span class="comment">// 设置坐标</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetPosition</span><span class="params">(<span class="type">float</span> x, <span class="type">float</span> y)</span></span>;</span><br><span class="line"><span class="comment">// 设置X坐标</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetPositionX</span><span class="params">(<span class="type">float</span> x)</span></span>;</span><br><span class="line"><span class="comment">// 设置Y坐标</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetPositionY</span><span class="params">(<span class="type">float</span> y)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>因为Pixel将节点的坐标放在了节点的中心，考虑到某些开发者可能不适用这种方式，所以引入了“偏移”（offset）的概念。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取偏移</span></span><br><span class="line"><span class="function">Vector2 <span class="title">GetOffset</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取X偏移</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">GetOffsetX</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取Y偏移</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">GetOffsetY</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置偏移</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetOffset</span><span class="params">(Vector2 offset)</span></span>;</span><br><span class="line"><span class="comment">// 设置偏移</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetOffset</span><span class="params">(<span class="type">float</span> x, <span class="type">float</span> y)</span></span>;</span><br><span class="line"><span class="comment">// 设置X偏移</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetOffsetX</span><span class="params">(<span class="type">float</span> x)</span></span>;</span><br><span class="line"><span class="comment">// 设置Y偏移</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetOffsetY</span><span class="params">(<span class="type">float</span> y)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果你习惯坐标在左上角，可以将x、y偏移量设为节点大小的一半的负数；如果你习惯坐标在右下角，可以将x、y偏移量设为节点大小的一半的……</p>
+<p>出于某些需要，开发者可能需要获取节点实际的渲染位置。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取渲染坐标</span></span><br><span class="line"><span class="function">Point <span class="title">GetRenderPosition</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取渲染X坐标</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">GetRenderPositionX</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取渲染Y坐标</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">GetRenderPositionY</span><span class="params">()</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果你打开源文件，可以看到<code>GetRenderPosition</code>函数的定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Pixel::Point Pixel::Node::<span class="built_in">GetRenderPosition</span>() <span class="type">const</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> _position + _offset;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这也就解释了，为什么只需要修改偏移就能适应大部分人的习惯了。</p>
+<h3 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取缩放大小</span></span><br><span class="line"><span class="function">Vector2 <span class="title">GetScale</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 缩放</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Scale</span><span class="params">(Vector2 scale)</span></span>;</span><br><span class="line"><span class="comment">// 缩放至</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ScaleTo</span><span class="params">(Vector2 scale)</span></span>;</span><br><span class="line"><span class="comment">// 缩放X</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ScaleX</span><span class="params">(<span class="type">float</span> x)</span></span>;</span><br><span class="line"><span class="comment">// 缩放X至</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ScaleXTo</span><span class="params">(<span class="type">float</span> x)</span></span>;</span><br><span class="line"><span class="comment">// 缩放Y</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ScaleY</span><span class="params">(<span class="type">float</span> y)</span></span>;</span><br><span class="line"><span class="comment">// 缩放Y至</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ScaleYTo</span><span class="params">(<span class="type">float</span> y)</span></span>;</span><br><span class="line"><span class="comment">// X翻转</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FlipX</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// Y翻转</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FlipY</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取旋转角度</span></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">GetAngle</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 旋转</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Rotate</span><span class="params">(<span class="type">float</span> angle)</span></span>;</span><br><span class="line"><span class="comment">// 转向</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">RotateTo</span><span class="params">(<span class="type">float</span> angle)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>旋转为逆时针旋转，0°方向为窗口右侧。</p>
+<h3 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 移动（受旋转方向影响）</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Move</span><span class="params">(<span class="type">float</span> step)</span></span>;</span><br><span class="line"><span class="comment">// 移动（不受旋转方向影响）</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Move</span><span class="params">(Vector2 vector)</span></span>;</span><br><span class="line"><span class="comment">// 向X移动</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MoveX</span><span class="params">(<span class="type">float</span> step)</span></span>;</span><br><span class="line"><span class="comment">// 向Y移动</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MoveY</span><span class="params">(<span class="type">float</span> step)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这些函数简化了移动节点时的代码，以向X移动2个像素为例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原来</span></span><br><span class="line">node.<span class="built_in">SetPositionX</span>(node.<span class="built_in">GetPositionX</span>() + <span class="number">2</span>);</span><br><span class="line"><span class="comment">// 现在</span></span><br><span class="line">node.<span class="built_in">MoveX</span>(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<p>移动步数以像素为单位。</p>
+<p>有关传入<code>float</code>类型的<code>Move</code>函数的内容请查看：<a target="_blank" rel="noopener" href="https://ling-314.netlify.app/post/%E7%94%A8Pixel%E5%AE%9E%E7%8E%B0Scratch%E7%9A%84%E7%A7%BB%E5%8A%A8xxx%E6%AD%A5">用Pixel实现Scratch的移动xxx步</a></p>
+<h3 id="高级玩意"><a href="#高级玩意" class="headerlink" title="高级玩意"></a><del>高级玩意</del></h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取大小</span></span><br><span class="line"><span class="function">Size <span class="title">GetSize</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取父节点</span></span><br><span class="line"><span class="function">Node* <span class="title">GetParent</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 获取所在场景</span></span><br><span class="line"><span class="function">Scene* <span class="title">Where</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 获取所有子节点</span></span><br><span class="line"><span class="function">std::vector&lt;Node*&gt; <span class="title">GetChildren</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 获取二维矩阵</span></span><br><span class="line"><span class="function">D2D1::Matrix3x2F <span class="title">GetTransform</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>Pixel尽量为每个可以的节点的成员变量都提供一个获取和修改函数。</p>
+<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Container = Node;</span><br></pre></td></tr></table></figure>
+
+<p>容器的作用只是为了语义化。</p>
+</section>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="/about/">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">Pixel</span>
+            <span>Pixel</span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=http://example.com/2024/02/23/%E8%8A%82%E7%82%B9/ - 节点 @"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "节点",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+	<div id="social">
+		<p class="small">©  ling-314| Powered by Hexo & 
+			<a target="_blank" rel="noopener" href="https://github.com/F0r3at/Lights"> Lights</a>
+		</p>
+	</div>
+</footer>
+
+</section>
+
+	<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+	<script data-no-instant>
+		
+		InstantClick.init('mousedown');
+	</script>
+
+
+

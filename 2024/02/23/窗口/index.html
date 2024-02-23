@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="轻量的C++图形库">
+
+
+	<meta name="keywords" content="轻量 C++ 2D 图形库">
+
+<link rel="alternate" href="/atom.xml" title="Pixel" type="application/atom+xml">
+<meta name="theme-color" content="#a1d0f6">
+<title>窗口 - Pixel</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>窗口</h1>
+        
+        <h2 class="headline">Feb 23 2024
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h2><p>构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Window</span>(std::string title = <span class="string">&quot;Window&quot;</span>, <span class="type">unsigned</span> <span class="type">int</span> width = <span class="number">640</span>, <span class="type">unsigned</span> <span class="type">int</span> height = <span class="number">480</span>, Window* parent = <span class="literal">nullptr</span>);</span><br></pre></td></tr></table></figure>
+
+<p>注意，不需为<code>parent</code>传参，因为没有编写为窗口设置父窗口的代码（和Direct2D有关系）。</p>
+<p>拷贝构造函数只复制窗口标题、宽高和父窗口。</p>
+<p>一些基本功能已经在新手教程中展示，这里不做描述。</p>
+<h3 id="基础的"><a href="#基础的" class="headerlink" title="基础的"></a>基础的</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取标题</span></span><br><span class="line"><span class="function">std::string <span class="title">GetTitle</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取大小</span></span><br><span class="line"><span class="function">Size <span class="title">GetSize</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取客户区大小</span></span><br><span class="line"><span class="function">Size <span class="title">GetClientSize</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取父窗口</span></span><br><span class="line"><span class="function">Window* <span class="title">GetParent</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 获取当前场景</span></span><br><span class="line"><span class="function">Scene* <span class="title">GetCurrentScene</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 获取消息</span></span><br><span class="line"><span class="function">Event <span class="title">GetEvent</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取摄像机</span></span><br><span class="line"><span class="function">Camera* <span class="title">GetCamera</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 获取窗口图标</span></span><br><span class="line"><span class="function">HICON <span class="title">GetIcon</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取光标</span></span><br><span class="line"><span class="function">HCURSOR <span class="title">GetCursor</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置标题</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetTitle</span><span class="params">(std::string title)</span></span>;</span><br><span class="line"><span class="comment">// 设置大小</span></span><br><span class="line"><span class="type">void</span> _SetSize(Size size);</span><br><span class="line"><span class="comment">// 设置客户区大小</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetClientSize</span><span class="params">(Size size)</span></span>;</span><br><span class="line"><span class="comment">// 设置父窗口</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetParent</span><span class="params">(Window* parent)</span></span>;</span><br><span class="line"><span class="comment">// 设置窗口图标</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetIcon</span><span class="params">(<span class="type">int</span> resourceName)</span></span>;</span><br><span class="line"><span class="comment">// 设置光标</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetCursor</span><span class="params">(<span class="type">int</span> resourceName)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>注意，<code>GetParent</code>没有实际用途，你可以用它来标记一些窗口<del>（什么鬼玩意）</del>。</p>
+<h3 id="高级玩意"><a href="#高级玩意" class="headerlink" title="高级玩意"></a><del>高级玩意</del></h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取窗口样式</span></span><br><span class="line"><span class="function">DWORD <span class="title">GetStyle</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取窗口类</span></span><br><span class="line"><span class="function">WNDCLASS <span class="title">GetClass</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取 HWND</span></span><br><span class="line"><span class="function">HWND <span class="title">GetHWnd</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 获取渲染器</span></span><br><span class="line"><span class="function">Renderer* <span class="title">GetRenderer</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">// 设置窗口样式</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetStyle</span><span class="params">(DWORD style)</span></span>;</span><br><span class="line"><span class="comment">// 设置窗口类</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetClass</span><span class="params">(WNDCLASS newClass)</span></span>;</span><br><span class="line"><span class="comment">// 设置 HWND 以操作其它窗口</span></span><br><span class="line"><span class="comment">// 若调用此函数，则不应调用 Init() 函数</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SetHWnd</span><span class="params">(HWND hWnd)</span></span>;</span><br></pre></td></tr></table></figure>
+
+</section>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="/about/">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">Pixel</span>
+            <span>Pixel</span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=http://example.com/2024/02/23/%E7%AA%97%E5%8F%A3/ - 窗口 @"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "窗口",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+	<div id="social">
+		<p class="small">©  ling-314| Powered by Hexo & 
+			<a target="_blank" rel="noopener" href="https://github.com/F0r3at/Lights"> Lights</a>
+		</p>
+	</div>
+</footer>
+
+</section>
+
+	<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+	<script data-no-instant>
+		
+		InstantClick.init('mousedown');
+	</script>
+
+
+

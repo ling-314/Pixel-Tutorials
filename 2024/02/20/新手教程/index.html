@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+  <meta name="description" content="轻量的C++图形库">
+
+
+	<meta name="keywords" content="轻量 C++ 2D 图形库">
+
+<link rel="alternate" href="/atom.xml" title="Pixel" type="application/atom+xml">
+<meta name="theme-color" content="#a1d0f6">
+<title>新手教程 - Pixel</title>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="shortcut icon" href="/favicon.png">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<nav class="main-nav">
+	
+	    <a href="/">← Home</a>
+	
+	
+	    <a href="/about/">About</a>
+	
+	    <a href="/archives/">Archives</a>
+	
+	<a class="cta" href="/atom.xml" data-no-instant>Subscribe</a>
+</nav>
+
+<section id="wrapper">
+    <article class="post">
+    <header>
+        
+            <h1>新手教程</h1>
+        
+        <h2 class="headline">Feb 20 2024
+        
+        </h2>
+    </header>
+</article>
+<section id="post-body"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Pixel是用C++开发的基于Direct2D的Win32图形库，体积小巧，可读性高，适合做一些小程序。</p>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>系统：Windows 8.1<br>IDE：Microsoft Visual Studio 2022 Professional LTSC 17.6<br>编译器：MSVC 14.36.32532<br>请注意，这些只是开发Pixel时的开发环境，最低支持的环境不确定。<del>只要不是MS-DOS和VC++6.0和GCC就行。</del></p>
+<h2 id="第一个窗口！"><a href="#第一个窗口！" class="headerlink" title="第一个窗口！"></a>第一个窗口！</h2><p><code>PWindow.hpp</code>包含了<code>Window</code>类，可以做一些关于窗口的操作。<br><code>Window</code>类有一个构造函数，原型为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Window::<span class="built_in">Window</span>(</span><br><span class="line">	std::string title = <span class="string">&quot;Window&quot;</span>,	<span class="comment">// 窗口标题</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> width = <span class="number">640</span>,		<span class="comment">// 窗口宽度</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> height = <span class="number">480</span>,		<span class="comment">// 窗口高度</span></span><br><span class="line">	Window* parent = <span class="literal">nullptr</span>		<span class="comment">// 父窗口</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>这个构造函数只是对类里的数据进行了初始化，要想初始化窗口，请调用<code>Init()</code>成员函数。原型为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">Window::Init</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>当窗口（和渲染器）初始化成功时，它会返回<code>true</code>，否则返回<code>false</code>。</p>
+<p>现在，调用<code>Show()</code>成员函数，将窗口显示出来！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Window::Show</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>它还有一个兄弟：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Window::Hide</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>现在，运行一下试试吧！你<u><strong>应该</strong></u>能够看到你的显示器上出现了一个窗口。开心吗？庆祝吧！你创建了你的第一个Pixel窗口！什么？关不掉？哦天哪，我们忘了处理窗口消息了！现在，用任务管理器或IDE强行关闭程序，继续编写窗口过程！</p>
+<p>现在我们要让窗口一直运行直到它被关闭，就要用到<code>Close()</code>函数。原型为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">Event::Close</span><span class="params">()</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+<p>这是一个窗口消息的类的成员函数，每个窗口都有一个<code>Event</code>类，可以用这个函数获取它：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Event <span class="title">Window::GetEvent</span><span class="params">()</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+<p>现在，把它的<code>while</code>循环结合起来：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (!window.<span class="built_in">GetEvent</span>().<span class="built_in">Close</span>())</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在代码中放一个空的循环显然不正常，我们要加上一段代码让它能够处理窗口消息：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Window::Update</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>现在，再次运行程序，它已经正常地运行起来了！</p>
+<p>渲染器有一些资源无法通过某些对象释放，需要自己手动释放。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Renderer::Destory</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>完整代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;PWindow.hpp&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Pixel;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> WINAPI <span class="title">WinMain</span><span class="params">(HINSTANCE, HINSTANCE, LPSTR, <span class="type">int</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Window window;</span><br><span class="line">	<span class="keyword">if</span> (!window.<span class="built_in">Init</span>()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	window.<span class="built_in">Show</span>();</span><br><span class="line">	<span class="keyword">while</span> (!window.<span class="built_in">GetEvent</span>().<span class="built_in">Close</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		window.<span class="built_in">Update</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	Renderer::<span class="built_in">Destory</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h2><p>没有一点东西的窗口是没有意义的，我们现在要给它“装饰”一番。我们可以创建一个<code>Scene</code>对象，这是一个场景对象，有了它，我们可以进行绘图、消息处理等操作。</p>
+<p><u><strong><code>Scene</code>类没有构造函数！</strong></u></p>
+<p>创建完场景，还得进入场景，不然就像你做了一个大不列颠蛋糕，还用奥尔良工具箱精心装饰它，却一直没有人吃它。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Window::Enter</span><span class="params">(Scene* target)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>然后，开始正式绘图吧！</p>
+<p>Pixel所有能够在窗口中显示的东西都是一个<code>Node</code>类，这是所有节点的基类，可以继承它来自定义自己的节点。</p>
+<p>所有图形节点类型如下：</p>
+<ul>
+<li>Ellipse</li>
+<li>Rectangle</li>
+<li>Line</li>
+<li>Polygon<br>它们都继承自<code>Graphic</code>类（继承自<code>Node</code>类），可以绘制一些基本的图形。</li>
+</ul>
+<p>如果想要显示节点（前提是它是可见的），就需要把这个节点添加进场景。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Scene::AddChild</span><span class="params">(Node* target)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>也可以先创建一大堆节点，再一口气全部添加进去。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Scene::AddChildren</span><span class="params">(std::initializer_list&lt;Node*&gt; targets)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>以Ellipse为例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;PWindow.hpp&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Pixel;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> WINAPI <span class="title">WinMain</span><span class="params">(HINSTANCE, HINSTANCE, LPSTR, <span class="type">int</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Window window;</span><br><span class="line">	<span class="keyword">if</span> (!window.<span class="built_in">Init</span>()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	Scene scene;</span><br><span class="line">	<span class="function">Pixel::Ellipse <span class="title">ellipse</span><span class="params">(<span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>)</span></span>; <span class="comment">// 刚刚列出的所有类都与Win32或Direct2D定义的类型名称重复，需要指定命名空间</span></span><br><span class="line">	scene.<span class="built_in">AddChild</span>(&amp;ellipse);</span><br><span class="line">	window.<span class="built_in">Enter</span>(&amp;scene);</span><br><span class="line">	window.<span class="built_in">Show</span>();</span><br><span class="line">	<span class="keyword">while</span> (!window.<span class="built_in">GetEvent</span>().<span class="built_in">Close</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		window.<span class="built_in">Update</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在你可以看到窗口左上角有一个空心圆。</p>
+<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><p><code>Ellipse</code>类构成函数如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Ellipse::<span class="built_in">Ellipse</span>();</span><br><span class="line">Ellipse::<span class="built_in">Ellipse</span>(<span class="type">float</span> x, <span class="type">float</span> y, <span class="type">float</span> radiusX, <span class="type">float</span> radiusY);</span><br></pre></td></tr></table></figure>
+<p>以第二个构造函数为参考：前两个参数指定了节点的位置。Pixel将节点的位置放在了它的中心而不是左上角，而坐标系则还是左手坐标系，x向下为正，y向右为正，因此可以满足大多数开发需求。后两个参数表示椭圆的X、Y半径。</p>
+</section>
+    
+
+    <footer id="post-meta" class="clearfix">
+        <a href="/about/">
+        <img class="avatar" src="/images/avatar.png">
+        <div>
+            <span class="dark">Pixel</span>
+            <span>Pixel</span>
+        </div>
+        </a>
+        <section id="sharing">
+            <a title="Share to Twitter" class="twitter" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=http://example.com/2024/02/20/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/ - 新手教程 @"><span class="icon-twitter">tweet</span></a>
+            <a title="Share to Facebook" class="facebook" href="#" onclick="
+                window.open(
+                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                  'facebook-share-dialog',
+                  'width=626,height=436');
+                return false;"><span class="icon-facebook-sign">Share</span>
+            </a>
+        </section>
+    </footer>
+
+
+  <section id="comment">
+    <button class="btn" id="loadcmts" onclick="cmts.load();">Load Comments</button>
+    <div id="gitment"></div>
+    <script src='/js/gitment.browser.js'></script>
+    <link rel="stylesheet" href=''>
+    <script>
+      var cmts={
+        load:function cmts(){
+          var gitment = new Gitment({
+          
+            id: "新手教程",
+          
+            owner: "",
+            repo: "",
+            oauth: {
+              client_id: "",
+              client_secret: "",
+            },
+          })
+          gitment.render('gitment');
+          var loadcmt = document.getElementById("loadcmts");
+          var imyourfather = loadcmt.parentNode;
+          imyourfather.removeChild(loadcmts)
+        }
+      }
+    </script>
+  </section>
+
+
+	<footer id="footer">
+	<div id="social">
+		<p class="small">©  ling-314| Powered by Hexo & 
+			<a target="_blank" rel="noopener" href="https://github.com/F0r3at/Lights"> Lights</a>
+		</p>
+	</div>
+</footer>
+
+</section>
+
+	<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
+	<script data-no-instant>
+		
+		InstantClick.init('mousedown');
+	</script>
+
+
+
